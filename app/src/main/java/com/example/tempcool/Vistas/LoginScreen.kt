@@ -58,17 +58,17 @@ fun Login(navController : NavController? = null) {
         modifier = Modifier.fillMaxSize().background(fondoApp).padding(24.dp),
         contentAlignment = Alignment.Center
     ){
+        TextButton(
+                onClick = {navController?.navigate("home")},
+                modifier = Modifier.align ( Alignment.TopEnd )
+            ){
+                Text(text = "Home")
+            }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
     ){
-            TextButton(
-                onClick = {navController?.navigate("home")}
-            ){
-                Text(text = "Home")
-            }
-            Spacer(modifier = Modifier.height(6.dp))
-
             Image(
             painter = logoApp,
             contentDescription = "Logo App",

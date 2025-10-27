@@ -17,9 +17,11 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tempcool.Vistas.DataTemp
 import com.example.tempcool.Vistas.Home
 import com.example.tempcool.Vistas.Login
 import com.example.tempcool.Vistas.Register
+import com.example.tempcool.Vistas.Opciones
 import com.example.tempcool.ui.theme.TempCoolTheme
 
 
@@ -37,6 +39,9 @@ class MainActivity : ComponentActivity() {
                             composable("home"){Home(navController)}
                             composable("login"){Login(navController)}
                             composable("register"){Register(navController)}
+                            composable("options"){Opciones(navController)}
+                            composable("dataTemp"){ DataTemp(navController) }
+                        }
                         }
                     }
 
@@ -44,4 +49,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
+

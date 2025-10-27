@@ -65,6 +65,17 @@ fun Register(navController: NavController? = null){
         modifier = Modifier.fillMaxSize().background(fondoApp).padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
+        TextButton(
+            onClick = {navController?.navigate("home")},
+            modifier = Modifier.align ( Alignment.TopEnd )
+            ){
+                Text(
+                    text = "Home",
+                    fontWeight = FontWeight.Bold,
+                    color = btnColorWhite,
+                    fontSize = MaterialTheme.typography.headlineSmall.fontSize
+                )
+            }
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -142,7 +153,7 @@ fun Register(navController: NavController? = null){
                 onClick = {
                     val usuario = Usuario(nombre, correo, contrasena)
                     guardarDataUser(usuario)
-                    navController?.navigate("home")
+                    navController?.navigate("options")
                 },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -160,7 +171,8 @@ fun Register(navController: NavController? = null){
                 onClick = { navController?.navigate("login") },
                 modifier = Modifier.fillMaxWidth().height(50.dp)
             ) {
-                Text("¿Tienes ya una cuenta creada?")
+                Text("¿Tienes ya una cuenta creada?",
+                color = btnColorWhite)
             }
         }
     }

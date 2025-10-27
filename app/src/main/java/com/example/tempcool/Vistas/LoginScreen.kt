@@ -62,7 +62,12 @@ fun Login(navController : NavController? = null) {
                 onClick = {navController?.navigate("home")},
                 modifier = Modifier.align ( Alignment.TopEnd )
             ){
-                Text(text = "Home")
+                Text(
+                    text = "Home",
+                    fontWeight = FontWeight.Bold,
+                    color = btnColorWhite,
+                    fontSize = MaterialTheme.typography.headlineSmall.fontSize
+                )
             }
 
         Column(
@@ -114,7 +119,7 @@ fun Login(navController : NavController? = null) {
                 onClick = {
                     val usuarioVal = UsuarioVal(correo, contrasena)
                     validarDataUser(usuarioVal)
-                    navController?.navigate("home") },
+                    navController?.navigate("options") },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                                 colors = ButtonDefaults.buttonColors(
                     containerColor = btnColorCherry,
@@ -127,7 +132,9 @@ fun Login(navController : NavController? = null) {
             TextButton(
                 onClick = {navController?.navigate("register")},
                 modifier = Modifier.fillMaxWidth().height(50.dp)
-            ){Text(text = "¿Aun no tines una cuenta creada? Registrate")}
+            ){Text(text = "¿Aun no tines una cuenta creada? Registrate",
+                color = btnColorWhite)
+            }
 
         }}}
 

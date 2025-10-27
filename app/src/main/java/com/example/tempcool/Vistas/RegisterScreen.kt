@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tempcool.R
+import com.google.firebase.auth.FirebaseAuth
 
 
 // clases la cual permite crear un objeto para almacenar los datos del usuario
@@ -44,7 +45,7 @@ data class Usuario(
 
 
 @Composable
-fun Register(navController: NavController? = null){
+fun Register(navController: NavController? = null, auth: FirebaseAuth){
 
     // Variables de los campos
     var nombre by remember { mutableStateOf("") }

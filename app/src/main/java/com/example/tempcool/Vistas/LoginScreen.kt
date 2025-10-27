@@ -1,5 +1,7 @@
 package com.example.tempcool.Vistas
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tempcool.R
+import com.google.firebase.auth.FirebaseAuth
 
 
 data class UsuarioVal(
@@ -39,11 +43,14 @@ data class UsuarioVal(
     val contrasena : String
 )
 @Composable
-fun Login(navController : NavController? = null) {
+fun Login(navController: NavController? = null, auth: FirebaseAuth) {
 
     // Variables de los campos
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
+
+    // Variables de contexto DB
+    val context = LocalContext.current
 
     // Variables de colores
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
@@ -115,17 +122,22 @@ fun Login(navController : NavController? = null) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Boton de inicio de sesion
+            val isLoading = false
             Button(
                 onClick = {
-                    val usuarioVal = UsuarioVal(correo, contrasena)
-                    validarDataUser(usuarioVal)
-                    navController?.navigate("options") },
+                    validarCredencial(correo, contrasena, auth, context) {
+                        if (it) navController?.navigate("options")
+                    }
+                },
+                enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth().height(50.dp),
-                                colors = ButtonDefaults.buttonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = btnColorCherry,
                     contentColor = btnColorWhite
                 )
-            ) {Text(text = "Iniciar sesión") }
+            ) {
+                Text(text = if (isLoading) "Cargando..." else "Iniciar sesión")
+            }
 
             Spacer(modifier = Modifier.height(7.dp))
 
@@ -139,13 +151,26 @@ fun Login(navController : NavController? = null) {
         }}}
 
 
-fun validarDataUser(usuarioVal : UsuarioVal){
-    if(usuarioVal.correo.isEmpty() || usuarioVal.contrasena.isEmpty()){
-    println("Los campos se encuentran vacios")
-    }else{
-        println("El usuario fue validado")
-        println("Credenciales Correo: ${usuarioVal.correo} Contraseña: ${usuarioVal.contrasena}")
+private fun validarCredencial(
+    correo: String,
+    contrasena: String,
+    auth: FirebaseAuth,
+    context: Context,
+    onResult: (Boolean) -> Unit
+) {
+    if (correo.isNotEmpty() && contrasena.isNotEmpty()) {
+        auth.signInWithEmailAndPassword(correo, contrasena).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
+                onResult(true)
+            } else {
+                Toast.makeText(context, "Error en el inicio de sesión", Toast.LENGTH_SHORT).show()
+                onResult(false)
+            }
+        }
+    } else {
+        Toast.makeText(context, "Ingrese el correo y la contraseña", Toast.LENGTH_SHORT).show()
+        onResult(false)
     }
 }
-
 

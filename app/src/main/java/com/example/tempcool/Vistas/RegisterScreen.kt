@@ -35,7 +35,7 @@ import androidx.navigation.NavController
 import com.example.tempcool.R
 
 
-
+// clases la cual permite crear un objeto para almacenar los datos del usuario
 data class Usuario(
     val nombre: String,
     val correo: String,
@@ -97,7 +97,6 @@ fun Register(navController: NavController? = null){
                 modifier = Modifier.fillMaxWidth()
             )
 
-
             Spacer(modifier = Modifier.height(16.dp))
 
             // Formulario para el correo
@@ -142,7 +141,7 @@ fun Register(navController: NavController? = null){
             Button(
                 onClick = {
                     val usuario = Usuario(nombre, correo, contrasena)
-                    guardarUsuario(usuario) // función que puedes definir
+                    guardarDataUser(usuario)
                     navController?.navigate("home")
                 },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
@@ -167,7 +166,8 @@ fun Register(navController: NavController? = null){
     }
 }
 
-fun guardarUsuario(usuario: Usuario) {
-    // Aquí puedes guardar en base de datos local, Firebase, etc.
+fun guardarDataUser(usuario: Usuario) {
+    // Aqui se puede colocar todo lo que mandara en la DB
     println("Usuario guardado: $usuario")
+    // Este print sale en el LogCat
 }

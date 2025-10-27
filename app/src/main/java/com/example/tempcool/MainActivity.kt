@@ -34,13 +34,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)){
                         NavHost(navController = navController, startDestination = "home"){
-                        composable("home"){Home(navController)}
+                            composable("home"){Home(navController)}
                             composable("login"){Login(navController)}
                             composable("register"){Register(navController)}
-
-
-
-
                         }
                     }
 

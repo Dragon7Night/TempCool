@@ -1,9 +1,13 @@
 package com.example.tempcool.Vistas
 
+import android.content.Context
+import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,14 +41,6 @@ import com.example.tempcool.R
 import com.google.firebase.auth.FirebaseAuth
 
 
-// clases la cual permite crear un objeto para almacenar los datos del usuario
-data class Usuario(
-    val nombre: String,
-    val correo: String,
-    val contrasena: String
-)
-
-
 @Composable
 fun Register(navController: NavController? = null, auth: FirebaseAuth){
 
@@ -52,6 +49,8 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth){
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var confirmarContrasena by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
 
     // Variables de colores
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
@@ -150,20 +149,28 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth){
             Spacer(modifier = Modifier.height(24.dp))
 
             // Boton de registro
+            val isLoading = false
             Button(
                 onClick = {
-                    val usuario = Usuario(nombre, correo, contrasena)
-                    guardarDataUser(usuario)
-                    navController?.navigate("options")
-                },
+                    var isLoading = true
+                    validarRegistro(nombre, correo, contrasena, confirmarContrasena, context, auth,
+                        onSuccess = {
+                            isLoading = false
+                            navController?.popBackStack()
+                            navController?.navigate("options")
+                        })},
+                enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = btnColorCherry,
                     contentColor = btnColorWhite
                 )
             ) {
-                Text("Registrarse")
+                Text(if (isLoading) "Registrando..." else "Registrarse")
             }
+
+
+
 
             Spacer(modifier = Modifier.height(7.dp))
 
@@ -179,8 +186,49 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth){
     }
 }
 
-fun guardarDataUser(usuario: Usuario) {
-    // Aqui se puede colocar todo lo que mandara en la DB
-    println("Usuario guardado: $usuario")
-    // Este print sale en el LogCat
+private fun ColumnScope.validarRegistro(
+    nombre: String,
+    correo: String,
+    contrasena: String,
+    confirmarContrasena: String,
+    context: Context,
+    auth: FirebaseAuth,
+    onSuccess: () -> Unit
+){
+
+    // Validar si los campos se encuentra vacios
+    if (nombre.isBlank() || correo.isBlank() || contrasena.isBlank() || confirmarContrasena.isBlank()){
+        Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    // Validar que el formato dle correo sea valido
+    if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+        Toast.makeText(context, "Correo invalido", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    if (contrasena.length < 6) {
+        Toast.makeText(context, "la contraseña no cumple con los caracteres requeridos", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    if (contrasena != confirmarContrasena) {
+        Toast.makeText(context, "no coinciden las contraseñas", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            Toast.makeText(context, "registro exitoso", Toast.LENGTH_SHORT).show()
+            onSuccess()
+        } else {
+            Toast.makeText(context, "registro fallido", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
+
+
+
+
+

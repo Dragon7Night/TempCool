@@ -38,10 +38,6 @@ import com.example.tempcool.R
 import com.google.firebase.auth.FirebaseAuth
 
 
-data class UsuarioVal(
-    val correo : String,
-    val contrasena : String
-)
 @Composable
 fun Login(navController: NavController? = null, auth: FirebaseAuth) {
 
@@ -56,7 +52,6 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val btnColorCherry = colorResource(id = R.color.btn_cherry)
     val btnColorWhite = colorResource(id = R.color.white)
-    val btnColorBlack = colorResource(id = R.color.black)
 
     // Variables de imagenes
     val logoApp = painterResource(id = R.drawable.logo)

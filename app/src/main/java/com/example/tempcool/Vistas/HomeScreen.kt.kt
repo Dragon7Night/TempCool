@@ -3,6 +3,7 @@ package com.example.tempcool.Vistas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,10 +38,14 @@ fun Home(navController: NavController? = null) {
     // Variables de imagenes
     val logoApp = painterResource(id = R.drawable.logo)
 
-    Column(
+    Box(
+        modifier = Modifier.fillMaxSize().background(fondoApp).padding(24.dp),
+        contentAlignment = Alignment.Center
+
+    ){
+        Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(fondoApp)
             .padding(vertical = 42.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -89,4 +94,6 @@ fun Home(navController: NavController? = null) {
             Text(text = "Registrarse")
         }
     }
+    }
+
 }

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tempcool.R
 
+// Funcion de bloque de sensores
 @Composable
 fun SensorBlock(
     icon: Painter,

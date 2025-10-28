@@ -66,6 +66,15 @@ fun Home(navController: NavController? = null) {
 
         Spacer(modifier = Modifier.weight(1f))
 
+            Text(
+            text = "Estado de la conexión: ACTIVO",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+            Spacer(modifier = Modifier.height(15.dp))
+
+
         Button(
             onClick = { navController?.navigate("login") },
             modifier = Modifier

@@ -157,7 +157,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth){
                         onSuccess = {
                             isLoading = false
                             navController?.popBackStack()
-                            navController?.navigate("options")
+                            navController?.navigate("login")
                         })},
                 enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth().height(50.dp),

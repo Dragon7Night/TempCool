@@ -1,6 +1,7 @@
 package com.example.tempcool.Vistas
 
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,9 +16,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +38,7 @@ fun Opciones(navController: NavController? = null) {
     val btnColorWhite = colorResource(id = R.color.white)
     val btnColorBlack = colorResource(id = R.color.black)
     val btnColorGreen = colorResource(id = R.color.btn_green_pastel)
+    val context = LocalContext.current
 
     // Variables de imagenes
     val logoApp = painterResource(id = R.drawable.logo)
@@ -45,10 +49,24 @@ fun Opciones(navController: NavController? = null) {
         contentAlignment = Alignment.Center
 
     ){
+        // Boton de cerrar sesion
+        TextButton(
+            onClick = { navController?.navigate("home") },
+            modifier = Modifier.align(Alignment.TopEnd)
+        ) {
+            Text(
+                text = "Cerrar sesión",
+                fontWeight = FontWeight.Bold,
+                color = btnColorWhite,
+                fontSize = MaterialTheme.typography.headlineSmall.fontSize
+            )
+            Toast.makeText(context, "Cerrando sesión..", Toast.LENGTH_SHORT).show()
+            Spacer(modifier = Modifier.height(10.dp))
+        }
         Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 25.dp),
+            .padding(vertical = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -86,7 +104,15 @@ fun Opciones(navController: NavController? = null) {
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = { navController?.navigate("home") },
+
+            onClick = {
+                val estadoVentiladores = false
+                if (estadoVentiladores == true) {
+                    Toast.makeText(context, "Ventiladores apagados", Toast.LENGTH_SHORT).show()
+                } else {
+                Toast.makeText(context, "Ventiladores encendidos", Toast.LENGTH_SHORT).show()
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),

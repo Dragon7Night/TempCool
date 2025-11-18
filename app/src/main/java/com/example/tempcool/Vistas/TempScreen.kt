@@ -110,8 +110,8 @@ fun DataTemp(navController: NavController? = null) {
             val numHumS2 = "17"
 
             // Formateo de las variables
-            val valueTempS1 = "${numTempS1} °F"
-            val valueTempS2 = "${numTempS2} °F"
+            val valueTempS1 = "${numTempS1} °C"
+            val valueTempS2 = "${numTempS2} °C"
             val humSen2 = "${numHumS2} %"
 
             // Titulo

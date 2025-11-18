@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "631938281384",
+    "firebase_url": "https://tempcooldb-default-rtdb.firebaseio.com",
     "project_id": "tempcooldb",
     "storage_bucket": "tempcooldb.firebasestorage.app"
   },

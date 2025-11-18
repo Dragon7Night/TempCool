@@ -42,7 +42,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun Register(navController: NavController? = null, auth: FirebaseAuth){
+fun Register(navController: NavController? = null){
 
     // Variables de los campos
     var nombre by remember { mutableStateOf("") }

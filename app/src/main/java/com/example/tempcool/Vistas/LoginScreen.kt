@@ -39,7 +39,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun Login(navController: NavController? = null, auth: FirebaseAuth) {
+fun Login(navController: NavController? = null) {
 
     // Variables de los campos
     var correo by remember { mutableStateOf("") }
